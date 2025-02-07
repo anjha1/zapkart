@@ -17,12 +17,12 @@ db = SQLAlchemy(app)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'achhutanandjha1@gmail.com'  # Replace with your email
-app.config['MAIL_PASSWORD'] = 'awur ojsz gshw ztjq'  # Replace with your app password
+app.config['MAIL_USERNAME'] = 'achhutanandjha1@gmail.com'  
+app.config['MAIL_PASSWORD'] = 'awur ojsz gshw ztjq'  
 
 mail = Mail(app)
 
-# Replace with your Razorpay API keys
+
 RAZORPAY_API_KEY = os.environ.get('RAZORPAY_API_KEY', 'rzp_test_UASg8QDyHDXQkz')
 RAZORPAY_API_SECRET = os.environ.get('RAZORPAY_API_SECRET', 'im3zYBK6PuIoZ6dS1LhlMQDj')
 
@@ -34,7 +34,7 @@ class Item(db.Model):
     def __repr__(self):
         return f'<Item {self.name}>'
 
-# PDF Generation Function
+# PDF 
 def generate_pdf_receipt(items, total_price, email):
     pdf = FPDF()
     pdf.add_page()
@@ -97,7 +97,7 @@ def index():
                 new_item = Item(
                     barcode=request.form['new_barcode'],
                     name=request.form['new_name'],
-                    price=float(request.form['new_price'])  # Ensure price is a float
+                    price=float(request.form['new_price'])  
                 )
                 db.session.add(new_item)
                 db.session.commit()
@@ -127,10 +127,10 @@ def proceed_to_payment():
         flash('Please provide an email address.')
         return redirect(url_for('index'))
 
-    # Store email in session for later use
+   
     session['email'] = email
 
-    # Generate and send receipt email
+ 
     items = session['items']
     total_price = sum(item['price'] for item in items)
     pdf_path = generate_pdf_receipt(items, total_price, email)
